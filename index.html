@@ -98,6 +98,17 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
   .split, .allergen { grid-template-columns: 1fr; gap: 24px; }
   section { padding-block: 48px; }
 }
+
+.reviews h2 { margin: 0 0 6px; }
+.rlist { display: grid; gap: 14px; margin-top: 22px; }
+.rcard { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px; }
+.rcard .st { color: var(--red); letter-spacing: 2px; font-size: 1.05rem; }
+.rcard p { margin: 6px 0 0; overflow-wrap: anywhere; }
+.rcard small { color: var(--muted); display: block; margin-top: 8px; font-weight: 700; }
+.rform { display: grid; gap: 14px; margin-top: 26px; }
+.rform select { font: inherit; padding: 11px 12px; border: 1px solid #C9BE9F; border-radius: 4px; background: #fff; color: var(--ink); width: 100%; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.ok { color: var(--green); font-weight: 700; }
 </style>
 
 <nav>
@@ -112,7 +123,7 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
   <img src="hero.jpg" alt="A stack of Welsh cakes on a cream plate with two more beside it" width="1800" height="771">
   <div class="hero-text">
     <h1>Welsh cakes, freshly baked.</h1>
-    <p>Small, spiced and full of sultanas. Baked in Dunfermline, with more sweet bakes to come.</p>
+    <p>Small, spiced and full of sultanas. Baked in Dunfermline, with mini bullar fresh from Sweden.</p>
     <a class="btn" href="#order">Find us at school</a>
   </div>
 </header>
@@ -129,7 +140,7 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
       <div class="item"><small>Pack of 4</small><strong>£3.50</strong></div>
       <div class="item"><small>Pack of 6</small><strong>£5.00</strong></div>
     </div>
-    <p class="note">More sweet bakes coming soon.</p>
+    <p class="note">Mini bullar, fresh from Sweden, also available at the stall.</p>
   </div>
 </section>
 
@@ -157,9 +168,29 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
   <div class="w allergen">
     <h2>Allergens</h2>
     <div>
-      <div class="chips"><span>Wheat (gluten)</span><span>Milk</span><span>Egg</span></div>
+      <div class="chips"><span>Barley</span><span>Wheat (gluten)</span><span>Milk</span><span>Egg</span><span>Almonds</span></div>
       <p class="note" style="margin-top:0">Ingredients: self-raising wheat flour, butter, sultanas, sugar, egg, milk, cinnamon, salt. May contain traces of other allergens. If you have an allergy, ask us before you buy.</p>
     </div>
+  </div>
+</section>
+
+<section id="reviews" class="reviews">
+  <div class="w narrow">
+    <h2>Reviews</h2>
+    <p class="note" style="margin-top:0">What our customers say.</p>
+    <div id="rlist" class="rlist" aria-live="polite"><p class="note" id="rempty">No reviews yet. Be the first to leave one.</p></div>
+    <form id="rform" class="rform" novalidate>
+      <h3 style="margin:0">Leave a review</h3>
+      <label>Your first name<input id="rn" maxlength="40" autocomplete="given-name"></label>
+      <label>Rating
+        <select id="rr"><option value="5">5 - Loved it</option><option value="4">4 - Very good</option><option value="3">3 - Good</option><option value="2">2 - Not great</option><option value="1">1 - Poor</option></select>
+      </label>
+      <label>Your review<textarea id="rc" rows="3" maxlength="500"></textarea></label>
+      <div class="hp" aria-hidden="true"><label>Website<input id="rh" tabindex="-1" autocomplete="off"></label></div>
+      <p id="rerr" class="err" role="alert" hidden></p>
+      <p id="rok" class="ok" role="status" hidden>Thank you. Your review will appear once we have checked it.</p>
+      <button class="btn" type="submit" id="rgo">Send review</button>
+    </form>
   </div>
 </section>
 
@@ -189,7 +220,7 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
       <div class="facts">
         <div><h3>When</h3><p>Tuesday 17 and Thursday 19 November.</p></div>
         <div><h3>What</h3><p>One Welsh cake £1.00, pack of 4 £3.50, pack of 6 £5.00.</p></div>
-        <div><h3>Allergens</h3><p>Contains wheat (gluten), milk and egg. May contain traces of other allergens. Best within 5 days of baking.</p></div>
+        <div><h3>Allergens</h3><p>Contains barley, wheat (gluten), milk, egg and almonds. May contain traces of other allergens.</p></div>
       </div>
     </div>
   </section>
@@ -208,5 +239,46 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
     else window.scrollTo(0, 0);
   }
   window.addEventListener('hashchange', route); route();
+})();
+
+(function () {
+  var URL_ = 'https://rbktbvchgeyejmkdhbza.supabase.co/rest/v1/reviews';
+  var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJia3RidmNoZ2V5ZWpta2RoYnphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2ODg3MzIsImV4cCI6MjExMDI2NDczMn0.O9QONcToUlUElHC2DR67jAsAywwtWzs7NncF3JghZF0';
+  var H = { apikey: KEY, Authorization: 'Bearer ' + KEY };
+  var list = document.getElementById('rlist'), empty = document.getElementById('rempty');
+  function stars(n) { return '\u2605'.repeat(n) + '\u2606'.repeat(5 - n); }
+  function show(rows) {
+    if (!rows || !rows.length) return;
+    list.textContent = '';
+    rows.forEach(function (r) {
+      var c = document.createElement('div'); c.className = 'rcard';
+      var st = document.createElement('div'); st.className = 'st'; st.setAttribute('aria-label', r.rating + ' out of 5'); st.textContent = stars(r.rating);
+      var p = document.createElement('p'); p.textContent = r.comment;
+      var sm = document.createElement('small'); sm.textContent = r.name;
+      c.appendChild(st); c.appendChild(p); c.appendChild(sm); list.appendChild(c);
+    });
+  }
+  try {
+    fetch(URL_ + '?select=name,rating,comment&order=created_at.desc&limit=20', { headers: H })
+      .then(function (r) { return r.ok ? r.json() : []; }).then(show).catch(function () {});
+  } catch (e) {}
+  var f = document.getElementById('rform'), err = document.getElementById('rerr'), ok = document.getElementById('rok'), go = document.getElementById('rgo');
+  function fail(m) { err.textContent = m; err.hidden = false; ok.hidden = true; }
+  f.addEventListener('submit', function (e) {
+    e.preventDefault(); err.hidden = true; ok.hidden = true;
+    if (document.getElementById('rh').value) return;
+    var n = document.getElementById('rn').value.trim(), c = document.getElementById('rc').value.trim(), r = parseInt(document.getElementById('rr').value, 10);
+    if (!n) return fail('Please enter your first name.');
+    if (c.length < 3) return fail('Please write a short review.');
+    try { var last = parseInt(localStorage.getItem('rv_last') || '0', 10); if (Date.now() - last < 60000) return fail('Please wait a minute before sending another review.'); } catch (x) {}
+    go.disabled = true;
+    fetch(URL_, { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify({ name: n, rating: r, comment: c }) })
+      .then(function (res) {
+        if (!res.ok) throw 0;
+        try { localStorage.setItem('rv_last', String(Date.now())); } catch (x) {}
+        f.reset(); ok.hidden = false;
+      }).catch(function () { fail('Sorry, your review could not be sent. Please try again later.'); })
+      .then(function () { go.disabled = false; });
+  });
 })();
 </script>
