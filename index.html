@@ -38,7 +38,7 @@ nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .when span { opacity: .85; }
 
 section { padding-block: 72px; }
-.menu { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+.menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 28px; }
 .item { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 24px 20px; display: grid; gap: 4px; }
 .item small { color: var(--muted); font-size: .8rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .item strong { font-family: var(--serif); font-weight: 400; font-size: 2.6rem; color: var(--green); line-height: 1.1; }
@@ -91,6 +91,12 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
   nav ul { gap: 10px; }
   nav ul { gap: 14px; font-size: .85rem; }
   nav img { height: 64px; }
+  nav ul { gap: 9px; font-size: .78rem; }
+  nav img { height: 52px; }
+  .navbtn { padding: 6px 10px; }
+  nav ul a { white-space: nowrap; }
+  nav .w { gap: 8px; }
+  nav img { height: 44px; }
   .hero-text { position: static; transform: none; max-width: none; padding: 28px 16px 8px; }
   .hero { display: flex; flex-direction: column-reverse; }
   .hero-text { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
@@ -118,6 +124,22 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
 .plist { list-style: none; margin: 0 0 4px; padding: 0; display: grid; gap: 8px; }
 .plist li { display: flex; justify-content: space-between; gap: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px; }
 .plist li b { font-family: var(--serif); font-weight: 400; font-size: 1.35rem; color: var(--green); }
+.calc { margin-top: 44px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 24px; display: grid; gap: 12px; }
+.calc h2 { margin: 0; }
+.crow { display: grid; grid-template-columns: minmax(0,1fr) auto auto; align-items: center; gap: 14px; padding: 10px 0; border-top: 1px solid var(--line); }
+.crow:first-of-type { border-top: 0; }
+.crow span small { display: block; color: var(--muted); }
+.qty { display: inline-flex; align-items: center; gap: 4px; }
+.qty button { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--green); background: transparent; color: var(--green); font-size: 1.3rem; line-height: 1; cursor: pointer; }
+.qty output { min-width: 32px; text-align: center; font-weight: 700; }
+.crow .lt { min-width: 64px; text-align: right; font-family: var(--serif); font-size: 1.2rem; color: var(--green); }
+.ctotal { display: flex; justify-content: space-between; align-items: baseline; border-top: 2px solid var(--green); padding-top: 14px; }
+.ctotal b { font-family: var(--serif); font-weight: 400; font-size: 2.2rem; color: var(--green); }
+@media (max-width: 520px) { .crow { grid-template-columns: minmax(0,1fr) auto; } .crow .lt { grid-column: 2; grid-row: 1; } .crow .qty { grid-column: 1 / -1; } }
+.qty input { width: 56px; height: 38px; text-align: center; font: inherit; font-weight: 700; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink); -moz-appearance: textfield; }
+.qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.deal { background: #E8F1E4; border-radius: 6px; padding: 12px 16px; display: grid; gap: 4px; }
+.deal b { color: var(--green); }
 .prod .price { font-weight: 700; color: var(--green); margin: 0 0 12px; }
 .prod h3 { margin: 18px 0 6px; font-size: 1rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .prod p { margin: 0; }
@@ -127,6 +149,7 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
 .pcard { display: grid; background: var(--card); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; text-decoration: none; color: inherit; transition: transform .15s, box-shadow .15s; }
 .pcard:hover, .pcard:focus-visible { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(31,42,36,.12); }
 .pcard img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
+.pcard .pnoimg { aspect-ratio: 4 / 3; background: var(--green); display: grid; place-items: center; color: var(--green-ink); font-family: var(--serif); font-size: 2rem; }
 .pbody { padding: 18px 20px 22px; display: grid; gap: 6px; }
 .pbody h2 { font-size: 1.6rem; }
 .pbody p { margin: 0; color: var(--muted); }
@@ -166,7 +189,7 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
 <nav>
   <div class="w">
     <a href="#" aria-label="The Sweet Oven"><img src="logo-sweet-crop.png" alt="The Sweet Oven" width="875" height="688"></a>
-    <ul><li><a href="#menu">Menu</a></li><li><a href="#products">Products</a></li><li><a href="#about">About</a></li><li><a href="#order" class="navbtn">Find us</a></li></ul>
+    <ul><li><a href="#menu">Menu</a></li><li><a href="#products">Products</a></li><li><a href="#calculator">Calculator</a></li><li><a href="#about">About</a></li><li><a href="#order" class="navbtn">Find us</a></li></ul>
   </div>
 </nav>
 
@@ -192,8 +215,9 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
       <div class="item"><small>Pack of 4</small><strong>£3.50</strong></div>
       <div class="item"><small>Pack of 6</small><strong>£5.00</strong></div>
       <div class="item"><small>One mini bullar</small><strong>50p</strong></div>
+      <div class="item"><small>One cookie</small><strong>50p</strong></div>
     </div>
-    <p class="note">Mini bullar are fresh from Sweden, sold as individual buns.</p>
+    <p class="note">Mini bullar are fresh from Sweden, sold as individual buns. Cookies are baked in Dunfermline. <a href="#calculator">Price calculator</a></p>
   </div>
 </section>
 
@@ -234,7 +258,7 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
     <h2>Allergens</h2>
     <div>
       <div class="chips"><span>Barley</span><span>Wheat (gluten)</span><span>Milk</span><span>Egg</span><span>Almonds</span></div>
-      <p class="note" style="margin-top:0">Welsh cake ingredients: self-raising wheat flour, butter, sultanas, sugar, egg, milk, cinnamon, salt. May contain traces of other allergens. If you have an allergy, ask us before you buy.</p>
+      <p class="note" style="margin-top:0">Welsh cake ingredients: self-raising wheat flour, butter, sultanas, sugar, egg, milk, cinnamon, salt. Cookie ingredients: flour, sugar, baking powder, butter, milk, eggs, chocolate. May contain traces of other allergens. If you have an allergy, ask us before you buy.</p>
     </div>
   </div>
 </section>
@@ -292,7 +316,30 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
           <img src="bullar-plate.jpg" alt="Two cinnamon buns showing their spiral, on a cream plate" width="1400" height="1050">
           <div class="pbody"><h2>Mini bullar</h2><p class="price">50p each</p><p>Swedish cinnamon buns, fresh from Sweden.</p><span class="more">View product &rarr;</span></div>
         </a>
+        <a class="pcard" href="#product-cookies">
+          <div class="pnoimg" aria-hidden="true">Cookies</div>
+          <div class="pbody"><h2>Cookies</h2><p class="price">50p each</p><p>Baked in Dunfermline, with chocolate.</p><span class="more">View product &rarr;</span></div>
+        </a>
       </div>
+      <p style="margin-top:36px"><a class="btn" href="#calculator">Price calculator</a></p>
+    </div>
+  </section>
+</div>
+
+<div id="v-calculator" hidden>
+  <section class="page">
+    <div class="w narrow">
+      <p class="back" style="margin:0 0 14px"><a href="#products">&larr; All products</a></p>
+      <h1 class="ph">Price calculator</h1>
+      <p class="lead">Enter how many you would like and we work out the best price for you.</p>
+      <div class="calc" id="calc">
+        <div class="crow" id="cw"><span>Welsh cakes<small>£1.00 each &middot; 4 for £3.50 &middot; 6 for £5.00</small></span><span class="qty"><button type="button" aria-label="Fewer Welsh cakes">&minus;</button><input id="cwn" type="number" inputmode="numeric" min="0" max="99" value="0" aria-label="Number of Welsh cakes"><button type="button" aria-label="More Welsh cakes">+</button></span><span class="lt" id="cwt">£0.00</span></div>
+        <div id="cwd" class="deal" hidden></div>
+        <div class="crow" id="cb"><span>Mini bullar<small>50p each</small></span><span class="qty"><button type="button" aria-label="Fewer mini bullar">&minus;</button><input id="cbn" type="number" inputmode="numeric" min="0" max="99" value="0" aria-label="Number of mini bullar"><button type="button" aria-label="More mini bullar">+</button></span><span class="lt" id="cbt">£0.00</span></div>
+        <div class="crow" id="cc"><span>Cookies<small>50p each</small></span><span class="qty"><button type="button" aria-label="Fewer cookies">&minus;</button><input id="ccn" type="number" inputmode="numeric" min="0" max="99" value="0" aria-label="Number of cookies"><button type="button" aria-label="More cookies">+</button></span><span class="lt" id="cct">£0.00</span></div>
+        <div class="ctotal"><span>Total</span><b id="ctot" aria-live="polite">£0.00</b></div>
+      </div>
+      <p class="note">Pay at the stall. The best price is worked out automatically.</p>
     </div>
   </section>
 </div>
@@ -325,6 +372,35 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
           <p>Contains:</p>
           <div class="ptag"><span>Wheat (gluten)</span><span>Milk</span><span>Egg</span></div>
           <p class="note" style="margin-top:8px">May contain traces of other allergens. Best within 5 days of baking. If you have an allergy, please ask us before you buy.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+
+<div id="v-product-cookies" hidden>
+  <header class="pband">
+    <i class="sh c g" style="width:200px;height:200px;right:-50px;top:-70px"></i><i class="sh d r" style="width:44px;height:44px;left:44%;top:28px"></i><i class="sh t g" style="width:80px;height:70px;left:6%;bottom:-16px;transform:rotate(10deg)"></i>
+    <div class="w narrow">
+      <p class="back" style="margin:0 0 14px"><a href="#products">&larr; All products</a></p>
+      <h1>Cookies</h1>
+      <p class="price">50p each</p>
+    </div>
+  </header>
+  <section class="page deco" style="padding-top:36px">
+    <div class="w narrow">
+      <article class="prod" style="border-top:0;padding-top:0">
+        <div>
+          <p>Chocolate cookies, baked in Dunfermline.</p>
+          <h3>Prices</h3>
+          <ul class="plist"><li><span>One cookie</span><b>50p</b></li></ul>
+          <div class="dots"></div>
+          <h3>Ingredients</h3>
+          <div class="ptag ing"><span>Flour</span><span>Sugar</span><span>Baking powder</span><span>Butter</span><span>Milk</span><span>Eggs</span><span>Chocolate</span></div>
+          <h3>Allergens</h3>
+          <p>Contains:</p>
+          <div class="ptag"><span>Wheat (gluten)</span><span>Milk</span><span>Egg</span></div>
+          <p class="note" style="margin-top:8px">May contain traces of other allergens. If you have an allergy, please ask us before you buy.</p>
         </div>
       </article>
     </div>
@@ -381,7 +457,47 @@ footer { background: var(--green); color: var(--green-ink); padding-block: 28px;
 
 <script>
 (function () {
-  var views = { home: document.getElementById('v-home'), about: document.getElementById('v-about'), order: document.getElementById('v-order'), products: document.getElementById('v-products'), 'product-welsh-cakes': document.getElementById('v-product-welsh-cakes'), 'product-mini-bullar': document.getElementById('v-product-mini-bullar') };
+  var best = [{c:0,p:[0,0,0]}];
+  for (var n = 1; n <= 99; n++) {
+    var o = [[1,100,0],[4,350,1],[6,500,2]], b = null;
+    o.forEach(function (x) { if (n >= x[0]) { var q = best[n - x[0]], c = q.c + x[1]; if (!b || c < b.c) { var p = q.p.slice(); p[x[2]]++; b = {c: c, p: p}; } } });
+    best[n] = b;
+  }
+  function m(p) { return '£' + (p / 100).toFixed(2); }
+  function val(el) { var v = parseInt(el.value, 10); if (isNaN(v) || v < 0) v = 0; return Math.min(99, v); }
+  var wn = document.getElementById('cwn'), bn = document.getElementById('cbn'), cn = document.getElementById('ccn'), d = document.getElementById('cwd');
+  function pl(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+  function upd() {
+    var w = val(wn), b = val(bn), c = val(cn), r = best[w], sv = w * 100 - r.c;
+    document.getElementById('cwt').textContent = m(r.c);
+    document.getElementById('cbt').textContent = m(b * 50);
+    document.getElementById('cct').textContent = m(c * 50);
+    document.getElementById('ctot').textContent = m(r.c + b * 50 + c * 50);
+    d.hidden = w === 0;
+    if (w === 0) return;
+    var parts = [];
+    if (r.p[2]) parts.push(pl(r.p[2], 'pack') + ' of 6');
+    if (r.p[1]) parts.push(pl(r.p[1], 'pack') + ' of 4');
+    if (r.p[0]) parts.push(pl(r.p[0], 'single cake'));
+    var h = '<span>Your Welsh cakes: ' + parts.join(' + ') + '</span>';
+    if (sv > 0) {
+      var f = Math.floor(sv / 100), rest = sv % 100, t = [];
+      if (f) t.push(pl(f, 'free Welsh cake'));
+      if (rest) t.push(rest + 'p off');
+      h += '<span><b>You save ' + m(sv) + '</b> (' + t.join(' and ') + ' with the deal)</span>';
+    } else h += '<span>Buy 4 or more to get a deal.</span>';
+    d.innerHTML = h;
+  }
+  [[wn,'cw'],[bn,'cb'],[cn,'cc']].forEach(function (x) {
+    var bt = document.getElementById(x[1]).querySelectorAll('button');
+    bt[0].onclick = function () { x[0].value = Math.max(0, val(x[0]) - 1); upd(); };
+    bt[1].onclick = function () { x[0].value = Math.min(99, val(x[0]) + 1); upd(); };
+    x[0].oninput = upd;
+  });
+  upd();
+})();
+(function () {
+  var views = { home: document.getElementById('v-home'), about: document.getElementById('v-about'), order: document.getElementById('v-order'), products: document.getElementById('v-products'), calculator: document.getElementById('v-calculator'), 'product-welsh-cakes': document.getElementById('v-product-welsh-cakes'), 'product-cookies': document.getElementById('v-product-cookies'), 'product-mini-bullar': document.getElementById('v-product-mini-bullar') };
   function route() {
     var h = location.hash.slice(1);
     var v = views.hasOwnProperty(h) && h !== 'home' ? h : 'home';
